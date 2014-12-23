@@ -60,14 +60,6 @@
 				<div id="response"> </div>
 		 </div>
 	  <div class="tag-list">
-	    <ul class="icon1 sub-icon1 profile_img">
-			<li><a class="active-icon c1" href="#"> </a>
-				<ul class="sub-icon1 list">
-					<li><h3>sed diam nonummy</h3><a href=""></a></li>
-					<li><p>Lorem ipsum dolor sit amet, consectetuer  <a href="">adipiscing elit, sed diam</a></p></li>
-				</ul>
-			</li>
-		</ul>
 		<ul class="icon1 sub-icon1 profile_img">
 			<li><a class="active-icon c2" href="#"> </a>
 				<ul class="sub-icon1 list">
@@ -374,9 +366,14 @@
     $('#goods').append($('<div/>').attr('class','top-box1'))
     for (var j = 0; j < ((3 < goods.length) ? 3 : goods.length); j++) {
       var div = $('<div/>').data('uri',goods[j].getAttribute('uri')).
-        addClass('col_1_of_3').addClass('span_1_of_3').append($('<a/>').attr('href','single.html').append($('<div/>').addClass('inner_content').addClass('clearfix').append($('<div/>').addClass('product_image').append($('<img/>').attr('src','images/pic4.jpg').attr('alt',''))).append($('<div/>').addClass('price').append($('<div/>').addClass('cart-left').append($('<p/>').addClass('title').text(goods[j].getAttribute('goodname'))).append($('<div/>').addClass('price1').append($('<span/>').addClass('actual').text('￥' + goods[j].getAttribute('price'))))).append($('<div/>').addClass('cart-right')).append($('<div/>').addClass('clear')))))
+        addClass('col_1_of_3').addClass('span_1_of_3').append($('<a/>').attr('class','single').append($('<div/>').addClass('inner_content').addClass('clearfix').append($('<div/>').addClass('product_image').append($('<img/>').attr('src','images/pic4.jpg').attr('alt',''))).append($('<div/>').addClass('price').append($('<div/>').addClass('cart-left').append($('<p/>').addClass('title').text(goods[j].getAttribute('goodname'))).append($('<div/>').addClass('price1').append($('<span/>').addClass('actual').text('￥' + goods[j].getAttribute('price'))))).append($('<div/>').addClass('cart-right')).append($('<div/>').addClass('clear')))))
       $('#goods>div.top-box1:last').append(div);
     }
+  })
+$('#goods').on('click','a.single',function(){
+    var uri = $(this).closest('div.col_1_of_3').data('uri')
+    var uris = uri.split('/');
+    window.location.href = "single.html?id=" + uris[2]
   })
 </script>
 </html>
