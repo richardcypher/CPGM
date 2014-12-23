@@ -43,12 +43,12 @@
 				<div class="menu">
 	            <ul class="megamenu skyblue">
 			<li class="active grid"><a href="index.html">Home</a></li>
-			<li><a class="color4" href="#">个人护理用品</a>
+			<li><a class="color4" href="category1.html">个人护理用品</a>
 				</li>				
-				<li><a class="color5" href="#">食品饮料</a>
+				<li><a class="color5" href="category2.html">食品饮料</a>
 				</li>
-				<li><a class="color6" href="other.html">保健品</a></li>
-				<li><a class="color7" href="other.html">烟酒</a></li>
+				<li><a class="color6" href="category3.html">保健品</a></li>
+				<li><a class="color7" href="category4.html">烟酒</a></li>
 			</ul>
 			</div>
 		</div>
@@ -271,25 +271,21 @@
 <script src="http://202.120.40.175:40012/RMP/function/Resource.js"></script>
 <script src="http://202.120.40.175:40012/RMP/function/ResourceCollection.js"></script>
 <script type="text/javascript">
-	$(function(){
-    if($.cookie('user_uri') == undefined) {
-
-    }
+  $(function() {
     var good_category=['食品饮料','个人护理用品','保健品','烟酒'];
     for (var i = 0; i < good_category.length; i++) {
-  		var resourcecollection = ResourceCollection.createNew("Ua2b5599c83278/CPGM/good/");
+      var resourcecollection = ResourceCollection.createNew("Ua2b5599c83278/CPGM/good/");
       resourcecollection.addEqual("category",good_category[i]);
-  		resourcecollection.GET();         
-  		var goods = resourcecollection.getResultSet();
+      resourcecollection.GET();         
+      var goods = resourcecollection.getResultSet();
       $('#goods').append($('<h2/>').text(good_category[i]).attr('class','head'))
       .append($('<div/>').attr('class','top-box1'))
       for (var j = 0; j < ((3 < goods.length) ? 3 : goods.length); j++) {
         var div = $('<div/>').data('uri',goods[j].getAttribute('uri')).
           addClass('col_1_of_3').addClass('span_1_of_3').append($('<a/>').attr('href','single.html').append($('<div/>').addClass('inner_content').addClass('clearfix').append($('<div/>').addClass('product_image').append($('<img/>').attr('src','images/pic4.jpg').attr('alt',''))).append($('<div/>').addClass('price').append($('<div/>').addClass('cart-left').append($('<p/>').addClass('title').text(goods[j].getAttribute('goodname'))).append($('<div/>').addClass('price1').append($('<span/>').addClass('actual').text('￥' + goods[j].getAttribute('price'))))).append($('<div/>').addClass('cart-right')).append($('<div/>').addClass('clear')))))
         $('#goods>div.top-box1:last').append(div);
-        console.log(div.data('uri'))
       }
     }
-	})
+  })
 </script>
 </html>
