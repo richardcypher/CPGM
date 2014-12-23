@@ -386,8 +386,7 @@ ul.last li a:hover{
 }
 /*  GRID OF THREE   ============================================================================= */
 .col_1_of_3{
-	display: block;
-	float:left;
+	display: inline-block;
 	margin: 1% 0 1% 2.6%;
 	box-shadow:0 0 5px #aaa;
 	-webkit-box-shadow:0 0 5px #aaa;
