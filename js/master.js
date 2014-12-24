@@ -4,10 +4,11 @@ function updatebasket(){
     basket = JSON.parse($.cookie("basket"));
   $('.cartnum').text('Cart(' + basket.length + ')')
   if(basket.length == 0) {
+    $('.basketinfo').empty().append('<li><h3></h3></li>');
     $('.basketinfo>li:eq(0)>h3').text('没有商品')
   }
   else {
-    $('.basketinfo').empty();
+    $('.basketinfo').empty().append('<li><h3></h3></li>');
     $('.basketinfo>li:eq(0)>h3').text('共有' + basket.length + '种商品')
     for (var i = 0; i < basket.length; i++) {
       $('.basketinfo').append(
