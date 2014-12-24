@@ -1,37 +1,50 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-<title>Checkout</title>
+<title>用户主页</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
+<link href="css/form.css" rel="stylesheet" type="text/css" media="all" />
 <link rel="stylesheet" type="text/css" href="css/master.css">
-<link rel="stylesheet" type="text/css" href="css/checkout.css">
-<style type="text/css">
-	#pay{
-		font-family: 'Exo 2', sans-serif;
-		cursor: pointer;
-		color: #FFF;
-		font-size: 1em;
-		outline: none;
-		-webkit-transition: all 0.3s;
-		-moz-transition: all 0.3s;
-		transition: all 0.3s;
-		background: #7EB123;
-		padding: 12px 20px;
-		border: none;
-		margin-top: 20px;
-		-webkit-appearance: none;
-	}
-</style>
+<link rel="stylesheet" href="css/account.css">
 
-<script type="text/javascript" src="js/jquery1.min.js"></script>
+<script src="js/jquery1.min.js"></script>
 <!-- start menu -->
 <link href="css/megamenu.css" rel="stylesheet" type="text/css" media="all" />
 <script type="text/javascript" src="js/megamenu.js"></script>
 <script>$(document).ready(function(){$(".megamenu").megamenu();});</script>
-<!-- dropdown -->
-<script src="js/jquery.easydropdown.js"></script>
+<script type="text/javascript" src="js/jquery.jscrollpane.min.js"></script>
+		<script type="text/javascript" id="sourcecode">
+			$(function()
+			{
+				$('.scroll-pane').jScrollPane();
+			});
+		</script>
+<!-- start details -->
+<script src="js/slides.min.jquery.js"></script>
+   <script>
+		$(function(){
+			$('#products').slides({
+				preload: true,
+				preloadImage: 'img/loading.gif',
+				effect: 'slide, fade',
+				crossfade: true,
+				slideSpeed: 350,
+				fadeSpeed: 500,
+				generateNextPrev: true,
+				generatePagination: false
+			});
+		});
+	</script>
+	<!-- start zoom -->
+	<link rel="stylesheet" href="css/zoome-min.css" />
+	<script type="text/javascript" src="js/zoome-e.js"></script>
+	<script type="text/javascript">
+		$(function(){
+		$('#img4').zoome({showZoomState:true,magnifierSize:[250,250]});
+	});
+	</script>		
 </head>
 <body>
        <div class="header-top">
@@ -47,7 +60,7 @@
 			<div class="clear"></div>
  		</div>
 	</div>
-	 <div class="header-bottom">
+	<div class="header-bottom">
 	    <div class="wrap">
 			<div class="header-bottom-left">
 				<div class="logo">
@@ -82,19 +95,18 @@
 	    <ul class="last"><li><a href="#" class="cartnum">Cart(0)</a></li></ul>
 	  </div>
     </div>
-    </div>
      <div class="clear"></div>
      </div>
 	</div>
-         <div class="register_account">
-           <div class="wrap">
-    	     <h4 class="title carttitle"></h4>
-  	     	<ul class="cartinfo">
-  	     	</ul>
-    	     <button id="pay">提交订单</button>
-    	   </div>
-    	</div>
-    <div class="footer">
+<div class="mens">    
+  <div class="main">
+     <div class="wrap">
+     <h4 class="title">所有订单</h4>
+     	<ul id="orders">
+     	</ul>
+	   </div>
+	</div>
+	<div class="footer">
 		<div class="footer-top">
 			<div class="wrap">
 			  <div class="section group example">
@@ -114,7 +126,7 @@
 		</div>
 		<div class="footer-middle">
 			<div class="wrap">
-			 <div class="section group example">
+			  <div class="section group example">
 			  <div class="col_1_of_f_1 span_1_of_f_1">
 				 <div class="section group example">
 				   <div class="col_1_of_f_2 span_1_of_f_2">
@@ -196,17 +208,17 @@
 		</div>
 		<div class="footer-bottom">
 			<div class="wrap">
-		        <div class="copy">
-			        <p>Copyright &copy; 2014.Company name All rights reserved.</p>
-		        </div>
-		        <div class="f-list2">
-				  <ul>
+	                <div class="copy">
+			           <p>Copyright &copy; 2014.Company name All rights reserved.</p>
+		            </div>
+		       <div class="f-list2">
+				<ul>
 					<li class="active"><a href="about.html">About Us</a></li> |
 					<li><a href="delivery.html">Delivery & Returns</a></li> |
 					<li><a href="delivery.html">Terms & Conditions</a></li> |
 					<li><a href="contact.html">Contact Us</a></li> 
-				  </ul>
-			   </div>
+				</ul>
+			  </div>
 				<div class="clear"></div>
 		      </div>
 			</div>
@@ -218,35 +230,25 @@
 <script src="http://202.120.40.175:40012/RMP/function/Resource.js"></script>
 <script src="http://202.120.40.175:40012/RMP/function/ResourceCollection.js"></script>
 <script type="text/javascript">
-	$(window).load(function(){
-		var basket = [];
-	  if ($.cookie("basket") != undefined)
-	    basket = JSON.parse($.cookie("basket"));
-	  if(basket.length == 0) {
-	  	$('.carttitle').text('购物车是空的')
-	  }
-	  else {
-	  	$('.carttitle').text('购物清单')
-	  	$('.cartinfo').append($('<li>').addClass('cartitem').append($('<div>').addClass('cartcol1').text('名字')).
-	  			append($('<div>').addClass('cartcol2').text('单价'))
-	  			.append($('<div>').addClass('cartcol3').text('数量'))
-	  			.append($('<div>').addClass('cartcol4').text('总价')))
-	  	var total = 0;
-	  	for (var i = 0; i < basket.length; i++) {
-	  		$('.cartinfo').append($('<li>').addClass('cartitem').append($('<div>').addClass('cartcol1').text(basket[i].name)).
-	  			append($('<div>').addClass('cartcol2').text(basket[i].price))
-	  			.append($('<div>').addClass('cartcol3').text(basket[i].num))
-	  			.append($('<div>').addClass('cartcol4').text(parseInt(basket[i].price) * 
-	  				parseInt(basket[i].num))))
-	  		total += parseInt(basket[i].price) * parseInt(basket[i].num)
-	  	}
-	  	$('.cartinfo').append('总价:￥' + total)
-	  }
-	})
-	$('#pay').click(function(){
-//post order here
-	$.removeCookie('basket');
-	})
+$(window).load(function(){
+	//need a way to 
+	var resourcecollection = ResourceCollection.createNew("Ua2b5599c83278/CPGM/order/");
+  resourcecollection.GET();         
+  var orders = resourcecollection.getResultSet();
+  $('#orders').append($('<li>').append($('<div>').addClass('ordercol1').text('订单号')).
+  		append($('<div>').addClass('ordercol2').text('下单时间'))
+			.append($('<div>').addClass('ordercol3').text('订单状态'))
+			.append($('<div>').addClass('ordercol4').text('取消订单')))
+  for (var i = 0; i < orders.length; i++) {
+  	$('#orders').append($('<li>').data('uri',orders[i].getAttribute('uri')).append($('<div>').addClass('ordercol1').text(orders[i].getAttribute('orderid'))).
+  		append($('<div>').addClass('ordercol2').text(orders[i].getAttribute('ordertime')))
+  			.append($('<div>').addClass('ordercol3').text(orders[i].getAttribute('status')))
+  			.append($('<div>').addClass('ordercol4').append($('<button>').addClass('cancel').text('取消订单'))))
+  }
+})
+$('#orders').on('click','button',function(){
+	//cancel the order
+})
 </script>
 </body>
 </html>
