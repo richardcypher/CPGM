@@ -79,17 +79,17 @@
         <div class="slider_container">
             <div class="slide"> 
                 <!-- Slide image -->
-                    <img src="images/banner.jpg" alt=""/>
+                    <img src="images/slide1.jpg" alt=""/>
                 <!-- /Slide image -->
                 <!-- Texts container -->
                 <div class="slide_content">
                     <div class="slide_content_wrap">
                         <!-- Text title -->
-                        <h4 class="title">Aluminium Club</h4>
+                        <h4 class="title">小糊涂仙</h4>
                         <!-- /Text title -->
                         
                         <!-- Text description -->
-                        <p class="description">Experiance ray ban</p>
+                        <p class="description">国内少有的浓香型优质白酒</p>
                         <!-- /Text description -->
                     </div>
                 </div>
@@ -97,11 +97,11 @@
             </div>
             <!-- /Duplicate to create more slides -->
             <div class="slide">
-                <img src="images/banner1.jpg" alt=""/>
+                <img src="images/slide1.jpg" alt=""/>
                 <div class="slide_content">
                     <div class="slide_content_wrap">
-                        <h4 class="title">consectetuer adipiscing </h4>
-                        <p class="description">diam nonummy nibh euismod</p>
+                        <h4 class="title">小糊涂仙</h4>
+                        <p class="description">国内少有的浓香型优质白酒</p>
                     </div>
                 </div>
             </div>
@@ -282,7 +282,7 @@
       .append($('<div/>').attr('class','top-box1'))
       for (var j = 0; j < ((3 < goods.length) ? 3 : goods.length); j++) {
         var div = $('<div/>').data('uri',goods[j].getAttribute('uri')).
-          addClass('col_1_of_3').addClass('span_1_of_3').append($('<a/>').attr('class','single').append($('<div/>').addClass('inner_content').addClass('clearfix').append($('<div/>').addClass('product_image').append($('<img/>').attr('src','images/pic4.jpg').attr('alt',''))).append($('<div/>').addClass('price').append($('<div/>').addClass('cart-left').append($('<p/>').addClass('title').text(goods[j].getAttribute('goodname'))).append($('<div/>').addClass('price1').append($('<span/>').addClass('actual').text('￥' + goods[j].getAttribute('price'))))).append($('<div/>').addClass('cart-right')).append($('<div/>').addClass('clear')))))
+          addClass('col_1_of_3').addClass('span_1_of_3').append($('<a/>').attr('class','single').append($('<div/>').addClass('inner_content').addClass('clearfix').append($('<div/>').addClass('product_image').append($('<img/>').attr('src','images/'+goods[j].getAttribute("image")+'.jpg').attr('alt',''))).append($('<div/>').addClass('price').append($('<div/>').addClass('cart-left').append($('<p/>').addClass('title').text(goods[j].getAttribute('goodname'))).append($('<div/>').addClass('price1').append($('<span/>').addClass('actual').text('￥' + goods[j].getAttribute('price'))))).append($('<div/>').addClass('cart-right')).append($('<div/>').addClass('clear')))))
         $('#goods>div.top-box1:last').append(div);
       }
     }
