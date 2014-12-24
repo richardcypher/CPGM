@@ -82,7 +82,7 @@
 				<div class="login-title">
 	           		<h4 class="title">Registered Customers</h4>
 					<div id="loginbox" class="loginbox">
-						<form action="" method="post" name="login" id="login-form">
+						<form action="index.html" id="login-form">
 						  <fieldset class="input">
 						    <p id="login-form-username">
 						      <label for="modlgn_username">Email</label>
@@ -228,5 +228,12 @@
 			</div>
 		</div>
 <div style="display:none"></div>
+<script src="http://202.120.40.175:40012/RMP/assets/js/jquery.cookie.js"></script>
+<script type="text/javascript">
+	$('#login-form').submit(function(e){
+		$.cookie('user_uri','123456')
+		return true;
+	})
+</script>
 </body>
 </html>

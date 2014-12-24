@@ -1,4 +1,3 @@
-
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -352,13 +351,13 @@
 			</div>
 		</div>
 <div style="display:none"></div>
-</body>
+
 <script src="http://202.120.40.175:40012/RMP/assets/js/jquery.cookie.js"></script>
 <script src="http://202.120.40.175:40012/RMP/function/Attribute.js"></script>
 <script src="http://202.120.40.175:40012/RMP/function/Resource.js"></script>
 <script src="http://202.120.40.175:40012/RMP/function/ResourceCollection.js"></script>
 <script type="text/javascript">
-	$(function() {
+	$(window).load(function() {
     var resourcecollection = ResourceCollection.createNew("Ua2b5599c83278/CPGM/good/");
     resourcecollection.addEqual("category","食品饮料");
     resourcecollection.GET();         
@@ -375,5 +374,5 @@ $('#goods').on('click','a.single',function(){
     var uris = uri.split('/');
     window.location.href = "single.html?id=" + uris[2]
   })
-</script>
+</script></body>
 </html>

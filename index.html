@@ -6,6 +6,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
 <link href="css/form.css" rel="stylesheet" type="text/css" media="all" />
+<link rel="stylesheet" type="text/css" href="css/master.css">
 
 <script type="text/javascript" src="js/jquery1.min.js"></script>
 <!-- start menu -->
@@ -25,10 +26,10 @@
 	   <div class="wrap"> 
 			<div class="cssmenu">
 				<ul>
-					<li class="active"><a href="login.html">Account</a></li> |
+					<li class="active"><a class="account">Account</a></li> |
 					<li><a href="checkout.html">Checkout</a></li> |
-					<li><a href="login.html">Log In</a></li> |
-					<li><a href="register.html">Sign Up</a></li>
+					<li><a href="login.html" class="loginbtn">Log In</a></li> |
+					<li><a href="register.html" class="signupbtn">Sign Up</a></li>
 				</ul>
 			</div>
 			<div class="clear"></div>
@@ -265,13 +266,13 @@
 	     </div>
 	</div>
 <div style="display:none"></div>
-</body>
+<script type="text/javascript" src="js/master.js"></script>
 <script src="http://202.120.40.175:40012/RMP/assets/js/jquery.cookie.js"></script>
 <script src="http://202.120.40.175:40012/RMP/function/Attribute.js"></script>
 <script src="http://202.120.40.175:40012/RMP/function/Resource.js"></script>
 <script src="http://202.120.40.175:40012/RMP/function/ResourceCollection.js"></script>
 <script type="text/javascript">
-  $(function() {
+  $(window).load(function() {
     var good_category=['食品饮料','个人护理用品','保健品','烟酒'];
     for (var i = 0; i < good_category.length; i++) {
       var resourcecollection = ResourceCollection.createNew("Ua2b5599c83278/CPGM/good/");
@@ -293,4 +294,5 @@
     window.location.href = "single.html?id=" + uris[2]
   })
 </script>
+</body>
 </html>
