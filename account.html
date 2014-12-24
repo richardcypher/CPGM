@@ -248,6 +248,7 @@ $(window).load(function(){
 })
 $('#orders').on('click','button',function(){
 	//cancel the order
+	var uri = $(this).closest('li').data('uri');//use this uri to fetch a specific order
 })
 </script>
 </body>
