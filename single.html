@@ -57,11 +57,6 @@
 	<!-- start zoom -->
 	<link rel="stylesheet" href="css/zoome-min.css" />
 	<script type="text/javascript" src="js/zoome-e.js"></script>
-	<script type="text/javascript">
-		$(function(){
-		$('#img4').zoome({showZoomState:true,magnifierSize:[250,250]});
-	});
-	</script>		
 </head>
 <body>
        <div class="header-top">
@@ -370,8 +365,8 @@ $(window).load(function(){
 		resource.getAttribute('price'));
 	$('.productinfo').text(resource.getAttribute('describe'));
 	$('#img4').attr('src','images/' + resource.getAttribute('image') + '.jpg')
-	$('#img4').attr('rel','images/' + resource.getAttribute('image') + '.jpg')
 	$('#img5').attr('src','images/' + resource.getAttribute('image') + '.jpg')
+	$('#img4').zoome({showZoomState:true,magnifierSize:[250,250]});
 	if ($.cookie("basket") != undefined)
   	basket = JSON.parse($.cookie("basket"));
 })
