@@ -349,10 +349,11 @@
 <script src="http://202.120.40.175:40012/RMP/function/ResourceCollection.js"></script>
 <script type="text/javascript">
 var basket = [];
-function good(id,name,num){
+function good(id,name,num,price){
 	this.id = id;
 	this.name = name;
 	this.num = num;
+	this.price = price;
 }
 function getParameterByName(name) {
     name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
@@ -365,7 +366,8 @@ $(window).load(function(){
 	var resource = Resource.createNew("Ua2b5599c83278/CPGM/good/" + id);    
 	resource.GET();
 	$('.productname').text(resource.getAttribute('goodname'));
-	$('.productprice').text('￥' + resource.getAttribute('price'));
+	$('.productprice').text('￥' + resource.getAttribute('price')).data('price',
+		resource.getAttribute('price'));
 	$('.productinfo').text(resource.getAttribute('describe'));
 	$('#img4').attr('src','images/' + resource.getAttribute('image') + '.jpg')
 	$('#img4').attr('rel','images/' + resource.getAttribute('image') + '.jpg')
@@ -392,7 +394,8 @@ $('.buy').click(function(){
 			found = false;
 	}
 	if (!found || basket.length == 0) {
-		var item = new good(getParameterByName('id'), $('.productname').text(),1);
+		var item = new good(getParameterByName('id'), $('.productname').text(),addnum, 
+			$('.productprice').data('price'));
 		basket.push(item);
 	}
 	$.cookie("basket",JSON.stringify(basket),{expires:7});
