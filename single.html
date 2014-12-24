@@ -124,10 +124,10 @@
 					<div id="products_example">
 						<div id="products">
 							<div class="slides_container">
-								<a href="#"><img class="a" id="img4" src="images/s-img3.jpg" alt="" rel="images/s-img3.jpg" /></a>
+								<a href="#"><img class="a" id="img4" alt="" /></a>
 							</div>
 							<ul class="pagination">
-								<li><a href="#"><img src="images/s4.jpg" width="s-img3" alt="1144953 1 2x"></a></li><div class="clear"></div>
+								<li><a href="#"><img id="img5" width="s-img3" alt="1144953 1 2x"></a></li><div class="clear"></div>
 							</ul>
 						</div>
 					</div>
@@ -367,6 +367,9 @@ $(window).load(function(){
 	$('.productname').text(resource.getAttribute('goodname'));
 	$('.productprice').text('￥' + resource.getAttribute('price'));
 	$('.productinfo').text(resource.getAttribute('describe'));
+	$('#img4').attr('src','images/' + resource.getAttribute('image') + '.jpg')
+	$('#img4').attr('rel','images/' + resource.getAttribute('image') + '.jpg')
+	$('#img5').attr('src','images/' + resource.getAttribute('image') + '.jpg')
 	if ($.cookie("basket") != undefined)
   	basket = JSON.parse($.cookie("basket"));
 })
