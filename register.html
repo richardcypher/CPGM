@@ -71,14 +71,14 @@
     	      <h4 class="title">Create an Account</h4>
     		   <form>
     			 <div class="col_1_of_2 span_1_of_2">
-		   			 <div><input type="text" value="Name" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Name';}"></div>
-		    			<div><input type="text" value="Company Name" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Company Name';}"></div>
-		    			<div><input type="text" value="E-Mail" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'E-Mail';}"></div>
-		    			<div><input type="text" value="password" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'password';}"></div>
+		   			<div><input type="text" value="Name" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Name';}"></div>	    		
+		    		<div><input type="text" value="E-Mail" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'E-Mail';}"></div>
+		    		<div><input type="text" value="password" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'password';}"></div>
+					<div><input type="text" value="confirm password" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'confirm password';}"></div>
 		    	 </div>
 		    	  <div class="col_1_of_2 span_1_of_2">	
 		    		<div><input type="text" value="Address" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Address';}"></div>
-		    		<div><select id="country" name="country" onchange="change_country(this.value)" class="frm-field required">
+		    		<div><select id="country" name="country" class="frm-field required">
 		            <option value="null">Select a Country</option>         
 		            <option value="AX">Åland Islands</option>
 		            <option value="AF">Afghanistan</option>
@@ -278,8 +278,7 @@
 		          <div><input type="text" value="City" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'City';}"></div>
 		           <div>
 		          </div>
-		          	<input type="text" value="" class="code"> - <input type="text" value="" class="number">
-		          		<p class="code">Country Code + Phone Number</p>
+		          	<input type="text" value=""  onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'phone number';}">
 		          </div>
 		      <button class="grey">Submit</button>
 		    <p class="terms">By clicking 'Create Account' you agree to the <a href="#">Terms &amp; Conditions</a>.</p>
