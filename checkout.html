@@ -218,8 +218,9 @@
 <script src="http://202.120.40.175:40012/RMP/function/Resource.js"></script>
 <script src="http://202.120.40.175:40012/RMP/function/ResourceCollection.js"></script>
 <script type="text/javascript">
-	$(window).load(function(){
-		var basket = [];
+	var basket = [];
+	var order;
+	$(window).load(function(){	
 	  if ($.cookie("basket") != undefined)
 	    basket = JSON.parse($.cookie("basket"));
 	  if(basket.length == 0) {
@@ -245,7 +246,21 @@
 	})
 	$('#pay').click(function(){
 //post order here
-	$.removeCookie('basket');
+		var orderid=new Date();
+		for (var i = 0; i < basket.length; i++) {
+			var resourcecollection = ResourceCollection.createNew("Ua2b5599c83278/CPGM/good/");
+			resourcecollection.addEqual("goodname",basket[i].name);
+			resourcecollection.GET();
+			var good = resourcecollection.getResultSet();
+			order = Resource.createNew("Ua2b5599c83278/CPGM/order/");
+			order.addAttribute(Attribute.createNew("orderid",0));
+			order.addAttribute(Attribute.createNew("number",0));
+			order.setAttribute("stat",'待发货');
+			order.POST();
+			good[0].addSubresource(order);
+			good[0].PUT();
+		}
+		$.removeCookie('basket');
 	})
 </script>
 </body>

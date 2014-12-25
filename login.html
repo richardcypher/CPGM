@@ -247,9 +247,9 @@ var user;
 			user = resourcecollection.getResultSet();
 			if(user.length!=0)
 			{
-				$.cookie('user_uri',user[0].userid);
+				$.cookie('user_uri',user[0].id);
 				$.cookie('user_role','user');
-				alert('login clicked');
+				//alert('login clicked');
 				return true;
 			}
 			
