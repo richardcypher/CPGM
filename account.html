@@ -227,6 +227,7 @@
 		</div>
 <div style="display:none"></div>
 <script type="text/javascript" src="js/master.js"></script>
+<script type="text/javascript" src="js/ChartNew.js"></script>
 <script src="http://202.120.40.175:40012/RMP/assets/js/jquery.cookie.js"></script>
 <script src="http://202.120.40.175:40012/RMP/function/Attribute.js"></script>
 <script src="http://202.120.40.175:40012/RMP/function/Resource.js"></script>
@@ -301,6 +302,108 @@ $('#content').on('click','.func2',function(){//查看商品
 })
 $('#content').on('click','.func3',function(){//订单统计
 	$('#contentbody').empty();
+	var resourcecollection = ResourceCollection.createNew("Ua2b5599c83278/CPGM/order/");
+  resourcecollection.GET();         
+  var orders = resourcecollection.getResultSet();
+  $('#contentbody').append($('<canvas>').attr('id','chart').
+  	attr('width','400').attr('height','400'));
+  var ctx = $('#chart').get(0).getContext('2d');	
+	var data = [
+		{
+		value: 300,
+		color:"#F7464A",
+		title: "个人护理用品"
+		},
+		{
+		value: 50,
+		color: "#46BFBD",
+		title: "食品饮料"
+		},
+		{
+		value: 100,
+		color: "#FDB45C",
+		title: "保健品"
+		},
+		{
+		value: 40,
+		color: "#949FB1",
+		title: "烟酒"
+		}
+	];
+	var myoptions = { 
+		inGraphDataShow : true,
+		datasetFill : true,
+		scaleLabel: "<%=value%>",
+		scaleTickSizeRight : 5,
+		scaleTickSizeLeft : 5,
+		scaleTickSizeBottom : 5,
+		scaleTickSizeTop : 5,
+		scaleFontSize : 16,
+		canvasBorders : false,
+		canvasBordersWidth : 3,
+		canvasBordersColor : "black",
+		graphTitle : "Graph Title",
+		graphTitleFontFamily : "'Arial'",
+		graphTitleFontSize : 24,
+		graphTitleFontStyle : "bold",
+		graphTitleFontColor : "#666",
+		graphSubTitle : "Graph Sub Title",
+		graphSubTitleFontFamily : "'Arial'",
+		graphSubTitleFontSize : 18,
+		graphSubTitleFontStyle : "normal",
+		graphSubTitleFontColor : "#666",
+		footNoteFontFamily : "'Arial'",
+		footNoteFontSize : 8,
+		footNoteFontStyle : "bold",
+		footNoteFontColor : "#666",
+		legend : true,
+		legendFontFamily : "'Arial'",
+		legendFontSize : 12,
+		legendFontStyle : "normal",
+		legendFontColor : "#666",
+		legendBlockSize : 15,
+		legendBorders : true,
+		legendBordersWidth : 1,
+		legendBordersColors : "#666",
+		yAxisLeft : true,
+		yAxisRight : false,
+		xAxisBottom : true,
+		xAxisTop : false,
+		yAxisLabel : "Y Axis Label",
+		yAxisFontFamily : "'Arial'",
+		yAxisFontSize : 16,
+		yAxisFontStyle : "normal",
+		yAxisFontColor : "#666",
+		xAxisLabel : "pX Axis Label",
+		xAxisFontFamily : "'Arial'",
+		xAxisFontSize : 16,
+		xAxisFontStyle : "normal",
+		xAxisFontColor : "#666",
+		yAxisUnit : "Y Unit",
+		yAxisUnitFontFamily : "'Arial'",
+		yAxisUnitFontSize : 8,
+		yAxisUnitFontStyle : "normal",
+		yAxisUnitFontColor : "#666",
+		annotateDisplay : true,
+		spaceTop : 0,
+		spaceBottom : 0,
+		spaceLeft : 0,
+		spaceRight : 0,
+		logarithmic: false,
+		// showYAxisMin : false,
+		rotateLabels : "smart",
+		xAxisSpaceOver : 0,
+		xAxisSpaceUnder : 0,
+		xAxisLabelSpaceAfter : 0,
+		xAxisLabelSpaceBefore : 0,
+		legendBordersSpaceBefore : 0,
+		legendBordersSpaceAfter : 0,
+		footNoteSpaceBefore : 0,
+		footNoteSpaceAfter : 0,
+		startAngle : 0,
+		dynamicDisplay : true
+	}  
+  var mychart = new Chart(ctx).Pie(data,myoptions);
 })
 $('#content').on('click','.deliver',function(){//deliver the good
 
