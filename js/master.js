@@ -26,10 +26,18 @@ $('.account').click(function(){
     window.location.href = "account.html"
   }
 })
+$('.logoutbtn').click(function(){
+  $.removeCookie('user_uri');
+  $.removeCookie('user_role');
+  $('.loginbtn').show();
+  $('.signupbtn').show();
+  $('.logoutbtn').hide();
+})
 $(function(){
   if($.cookie('user_uri') != undefined) {
     $('.loginbtn').hide();
     $('.signupbtn').hide();
+    $('.logoutbtn').show();
   }
   updatebasket();
 })
