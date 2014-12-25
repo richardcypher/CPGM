@@ -102,8 +102,10 @@
   <div class="main">
      <div class="wrap" id="content">
      <h4 class="title">所有订单</h4>
+     <div id="contentbody">
      	<ul id="orders">
      	</ul>
+     </div>
 	   </div>
 	</div>
 	<div class="footer">
@@ -235,7 +237,11 @@ $(window).load(function(){
 		return;
 	switch($.cookie('user_role')) {
 		case 'admin':
-			$('#content').empty();
+			$('#content>h4').remove();
+			$('#contentbody').empty();
+			$('#content').prepend($('<button>').addClass('functype func1').text('查看订单'))
+					.prepend($('<button>').addClass('functype func2').text('查看商品'))
+					.prepend($('<button>').addClass('functype func3').text('订单统计'))
 			break;
 		case "user":
 		//need a way to get user's orders
@@ -247,18 +253,60 @@ $(window).load(function(){
 					.append($('<div>').addClass('ordercol3').text('订单状态'))
 					.append($('<div>').addClass('ordercol4').text('取消订单')))
 		  for (var i = 0; i < orders.length; i++) {
-		  	$('#orders').append($('<li>').data('uri',orders[i].getAttribute('uri')).append($('<div>').addClass('ordercol1').text(orders[i].getAttribute('orderid'))).
+		  	$('#orders').append($('<li>').addClass('orderitem').data('uri',orders[i].getAttribute('uri')).append($('<div>').addClass('ordercol1').text(orders[i].getAttribute('orderid'))).
 		  		append($('<div>').addClass('ordercol2').text(orders[i].getAttribute('ordertime')))
 		  			.append($('<div>').addClass('ordercol3').text(orders[i].getAttribute('status')))
 		  			.append($('<div>').addClass('ordercol4').append($('<button>').addClass('cancel').text('取消订单'))))
 		  }
 			break;
 	}
-	
 })
-$('#orders').on('click','button',function(){
+$('#orders').on('click','.cancel',function(){
 	//cancel the order
 	var uri = $(this).closest('li').data('uri');//use this uri to fetch a specific order
+})
+$('#content').on('click','.func1',function(){//查看订单
+	$('#contentbody').empty();
+	var resourcecollection = ResourceCollection.createNew("Ua2b5599c83278/CPGM/order/");
+  resourcecollection.GET();         
+  var orders = resourcecollection.getResultSet();
+  $('#contentbody').append($('<ul>'));
+  $('#contentbody>ul').append($('<li>').append($('<div>').addClass('ordercol1').text('订单号')).
+  		append($('<div>').addClass('ordercol2').text('下单时间'))
+			.append($('<div>').addClass('ordercol3').text('订单状态'))
+			.append($('<div>').addClass('ordercol4').text('发货')))
+  for (var i = 0; i < orders.length; i++) {
+  	$('#contentbody>ul').append($('<li>').addClass('orderitem').data('uri',orders[i].getAttribute('uri')).append($('<div>').addClass('ordercol1').text(orders[i].getAttribute('orderid'))).
+  		append($('<div>').addClass('ordercol2').text(orders[i].getAttribute('ordertime')))
+  			.append($('<div>').addClass('ordercol3').text(orders[i].getAttribute('status')))
+  			.append($('<div>').addClass('ordercol4').append($('<button>').addClass('deliver').text('发货'))))
+  }
+})
+$('#content').on('click','.func2',function(){//查看商品
+	$('#contentbody').empty();
+	var resourcecollection = ResourceCollection.createNew("Ua2b5599c83278/CPGM/good/");
+  resourcecollection.GET();         
+  var goods = resourcecollection.getResultSet();
+  $('#contentbody').append($('<ul>'));
+  $('#contentbody>ul').append($('<li>').append($('<div>').addClass('ordercol1').text('商品名')).
+  		append($('<div>').addClass('ordercol2').text('类别'))
+			.append($('<div>').addClass('ordercol3').text('库存'))
+			.append($('<div>').addClass('ordercol4').text('补货')))
+  for (var i = 0; i < goods.length; i++) {
+  	$('#contentbody>ul').append($('<li>').addClass('orderitem').data('uri',goods[i].getAttribute('uri')).append($('<div>').addClass('ordercol1').text(goods[i].getAttribute('goodname'))).
+  		append($('<div>').addClass('ordercol2').text(goods[i].getAttribute('category')))
+  			.append($('<div>').addClass('ordercol3').text(goods[i].getAttribute('inventory')))
+  			.append($('<div>').addClass('ordercol4').append($('<button>').addClass('supply').text('补货'))))
+  }
+})
+$('#content').on('click','.func3',function(){//订单统计
+	$('#contentbody').empty();
+})
+$('#content').on('click','.deliver',function(){//deliver the good
+
+})
+$('#content').on('click','.supply',function(){//supply the good
+
 })
 </script>
 </body>

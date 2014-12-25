@@ -2,7 +2,7 @@
 	display: inline-block;
 	width: 22%
 }
-.buy,.putback{
+.functype{
 		font-family: 'Exo 2', sans-serif;
 		cursor: pointer;
 		border: none;
@@ -17,4 +17,25 @@
 		-moz-transition: all 0.3s ease-in-out;
 		-o-transition: all 0.3s ease-in-out;
 		transition: all 0.3s ease-in-out;
-	}
+}
+.supply,.deliver{
+	font-family: 'Exo 2', sans-serif;
+		cursor: pointer;
+		border: none;
+		outline: none;
+		display: inline-block;
+		font-size: 13px;
+		padding: 5px 20px;
+		margin-top: 1px;
+		margin-bottom: 1px;
+		background:#4CB1CA;
+		color: #FFF;
+		text-transform: uppercase;
+		-webkit-transition: all 0.3s ease-in-out;
+		-moz-transition: all 0.3s ease-in-out;
+		-o-transition: all 0.3s ease-in-out;
+		transition: all 0.3s ease-in-out;
+}
+.orderitem {
+	border-bottom: solid 1px #4CB1CA;
+}
