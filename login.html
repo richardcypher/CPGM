@@ -85,7 +85,7 @@
 						<form action="index.html" id="login-form">
 						  <fieldset class="input">
 						    <p id="login-form-username">
-						      <label for="modlgn_username">Email</label>
+						      <label for="modlgn_username">Username</label>
 						      <input id="modlgn_username" type="text" name="email" class="inputbox" size="18" autocomplete="off">
 						    </p>
 						    <p id="login-form-password">
@@ -100,7 +100,7 @@
 										<option value="2">供货商</option>
 								  	</select>
 							    </div>
-							    <input type="submit" name="Submit" class="button" value="Login"><div class="clear"></div>
+							    <input type="submit" name="Submit" id="login" class="button" value="Login"><div class="clear"></div>
 							 </div>
 						  </fieldset>
 						 </form>
@@ -230,13 +230,33 @@
 <div style="display:none"></div>
 <script type="text/javascript" src="js/master.js"></script>
 <script src="http://202.120.40.175:40012/RMP/assets/js/jquery.cookie.js"></script>
+<script src="http://202.120.40.175:40012/RMP/function/Attribute.js"></script>
+<script src="http://202.120.40.175:40012/RMP/function/Resource.js"></script>
+<script src="http://202.120.40.175:40012/RMP/function/ResourceCollection.js"></script>
 <script type="text/javascript">
+var user;
 	$('#login-form').submit(function(e){
 		//user_role:admin,user
-		$.cookie('user_uri','123456')
-		$.cookie('user_role','admin')
-		alert('login clicked');
-		return true;
+		var selected=$(".dropdown").find(".selected")[0].innerHTML;
+		if(selected=="用户")
+		{
+			var resourcecollection = ResourceCollection.createNew("Ua2b5599c83278/CPGM/user/");
+			resourcecollection.addEqual("username",$('#modlgn_username').val());
+			resourcecollection.addEqual("password",$('#modlgn_passwd').val());
+			resourcecollection.GET(); 
+			user = resourcecollection.getResultSet();
+			if(user.length!=0)
+			{
+				$.cookie('user_uri',user[0].userid);
+				$.cookie('user_role','user');
+				alert('login clicked');
+				return true;
+			}
+			
+		}
+		alert("用户名或密码错误");
+		e.preventDefault();
+		return false;
 	})
 </script>
 </body>

@@ -71,14 +71,14 @@
     	      <h4 class="title">Create an Account</h4>
     		   <form>
     			 <div class="col_1_of_2 span_1_of_2">
-		   			<div><input type="text" value="Name" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Name';}"></div>	    		
-		    		<div><input type="text" value="E-Mail" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'E-Mail';}"></div>
-		    		<div><input type="text" value="password" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'password';}"></div>
-					<div><input type="text" value="confirm password" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'confirm password';}"></div>
+		   			<div><input type="text" id="name" value="Name" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Name';}"></div>	    		
+		    		<div><input type="text" id="mail" value="E-Mail" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'E-Mail';}"></div>
+		    		<div><input type="text" id="psw1" value="password" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'password';}"></div>
+					<div><input type="text" id="psw2" value="confirm password" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'confirm password';}"></div>
 		    	 </div>
 		    	  <div class="col_1_of_2 span_1_of_2">	
-		    		<div><input type="text" value="Address" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Address';}"></div>
-		    		<div><select id="country" name="country" class="frm-field required">
+		    		<div><input type="text" id="address" value="Address" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Address';}"></div>
+		    		<div><select id="country" id="country" name="country" class="frm-field required">
 		            <option value="null">Select a Country</option>         
 		            <option value="AX">Åland Islands</option>
 		            <option value="AF">Afghanistan</option>
@@ -278,9 +278,10 @@
 		          <div><input type="text" value="City" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'City';}"></div>
 		           <div>
 		          </div>
-		          	<input type="text" value=""  onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'phone number';}">
+		          	<input type="text" id="phone" value=""  onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'phone number';}">
 		          </div>
-		      <button class="grey">Submit</button>
+				  
+		      <button type="button" class="grey" id="register" ">Submit</button>
 		    <p class="terms">By clicking 'Create Account' you agree to the <a href="#">Terms &amp; Conditions</a>.</p>
 		    <div class="clear"></div>
 		    </form>
@@ -405,5 +406,39 @@
 		</div>
 <div style="display:none"></div>
 <script type="text/javascript" src="js/master.js"></script>
+<script src="http://202.120.40.175:40012/RMP/assets/js/jquery.cookie.js"></script>
+<script src="http://202.120.40.175:40012/RMP/function/Attribute.js"></script>
+<script src="http://202.120.40.175:40012/RMP/function/Resource.js"></script>
+<script src="http://202.120.40.175:40012/RMP/function/ResourceCollection.js"></script>
+<script>
+var resource;
+$('#register').on('click',function(){
+	if($('#psw1').val()==$('#psw2').val())
+	{
+		var resourcecollection = ResourceCollection.createNew("Ua2b5599c83278/CPGM/user/");
+		resourcecollection.addEqual("username",$('#name').val());
+		resourcecollection.GET(); 
+		var exist = resourcecollection.getResultSet();
+		if(exist.length!=0)
+		{
+			alert("用户名已存在");return;
+		}
+		resource = Resource.createNew("Ua2b5599c83278/CPGM/user/");
+		resource.setAttribute("username",$('#name').val());	
+		resource.setAttribute("password",$('#psw1').val());	
+		resource.setAttribute("address",$('#address').val());	
+		resource.setAttribute("phone",$('#phone').val());	
+		resource.setAttribute("country",$('#country').val());
+		resource.POST();
+		if(resource.msg!="<succeed></succeed>")
+		alert("注册失败，请检查输入后重试");
+		else
+		alert("注册成功");
+	}
+	else alert('密码不一致');
+
+	
+  })
+</script>
 </body>
 </html>
