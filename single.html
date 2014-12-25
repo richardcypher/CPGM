@@ -57,21 +57,16 @@
 	<!-- start zoom -->
 	<link rel="stylesheet" href="css/zoome-min.css" />
 	<script type="text/javascript" src="js/zoome-e.js"></script>
-	<script type="text/javascript">
-		$(function(){
-		$('#img4').zoome({showZoomState:true,magnifierSize:[250,250]});
-	});
-	</script>		
 </head>
 <body>
        <div class="header-top">
 			<div class="wrap"> 
 			 <div class="cssmenu">
 				<ul>
-					<li class="active"><a href="login.html">Account</a></li> |
+					<li class="active"><a class="account">Account</a></li> |
 					<li><a href="checkout.html">Checkout</a></li> |
-					<li><a href="login.html">Log In</a></li> |
-					<li><a href="register.html">Sign Up</a></li>
+					<li><a href="login.html" class="loginbtn">Log In</a></li> |
+					<li><a href="register.html" class="signupbtn">Sign Up</a></li>
 				</ul>
 			</div>
 			<div class="clear"></div>
@@ -349,10 +344,11 @@
 <script src="http://202.120.40.175:40012/RMP/function/ResourceCollection.js"></script>
 <script type="text/javascript">
 var basket = [];
-function good(id,name,num){
+function good(id,name,num,price){
 	this.id = id;
 	this.name = name;
 	this.num = num;
+	this.price = price;
 }
 function getParameterByName(name) {
     name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
@@ -365,11 +361,12 @@ $(window).load(function(){
 	var resource = Resource.createNew("Ua2b5599c83278/CPGM/good/" + id);    
 	resource.GET();
 	$('.productname').text(resource.getAttribute('goodname'));
-	$('.productprice').text('￥' + resource.getAttribute('price'));
+	$('.productprice').text('￥' + resource.getAttribute('price')).data('price',
+		resource.getAttribute('price'));
 	$('.productinfo').text(resource.getAttribute('describe'));
 	$('#img4').attr('src','images/' + resource.getAttribute('image') + '.jpg')
-	$('#img4').attr('rel','images/' + resource.getAttribute('image') + '.jpg')
 	$('#img5').attr('src','images/' + resource.getAttribute('image') + '.jpg')
+	$('#img4').zoome({showZoomState:true,magnifierSize:[250,250]});
 	if ($.cookie("basket") != undefined)
   	basket = JSON.parse($.cookie("basket"));
 })
@@ -392,7 +389,8 @@ $('.buy').click(function(){
 			found = false;
 	}
 	if (!found || basket.length == 0) {
-		var item = new good(getParameterByName('id'), $('.productname').text(),1);
+		var item = new good(getParameterByName('id'), $('.productname').text(),addnum, 
+			$('.productprice').data('price'));
 		basket.push(item);
 	}
 	$.cookie("basket",JSON.stringify(basket),{expires:7});
