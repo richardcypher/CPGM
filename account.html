@@ -305,9 +305,25 @@ $('#content').on('click','.func3',function(){//订单统计
 	var resourcecollection = ResourceCollection.createNew("Ua2b5599c83278/CPGM/order/");
   resourcecollection.GET();         
   var orders = resourcecollection.getResultSet();
-  $('#contentbody').append($('<canvas>').attr('id','chart').
+  $('#contentbody').append($('<canvas>').attr('id','piechart').
   	attr('width','400').attr('height','400'));
-  var ctx = $('#chart').get(0).getContext('2d');	
+  $('#contentbody').append($('<canvas>').attr('id','linechart').
+  	attr('width','400').attr('height','400'));
+  var ctx = $('#piechart').get(0).getContext('2d');
+  var ctx1 = $('#linechart').get(0).getContext('2d');	
+  var data1 = {
+			labels : ["January","February","March","April","May","June","July"],
+			datasets : [
+			{
+				fillColor : "rgba(220,220,220,0.5)",
+				strokeColor : "rgba(220,220,220,1)",
+				pointColor : "rgba(220,220,220,1)",
+				pointStrokeColor : "#fff",
+				data : [0.65,0.59,0.90,0.81,0.56,0.55,0.40],
+				title : "pFirst data"
+			}
+			]
+		}
 	var data = [
 		{
 		value: 300,
@@ -403,7 +419,9 @@ $('#content').on('click','.func3',function(){//订单统计
 		startAngle : 0,
 		dynamicDisplay : true
 	}  
-  var mychart = new Chart(ctx).Pie(data,myoptions);
+  new Chart(ctx).Pie(data,myoptions);
+  new Chart(ctx1).Line(data1,myoptions);
+
 })
 $('#content').on('click','.deliver',function(){//deliver the good
 
