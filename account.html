@@ -100,7 +100,7 @@
 	</div>
 <div class="mens">    
   <div class="main">
-     <div class="wrap">
+     <div class="wrap" id="content">
      <h4 class="title">所有订单</h4>
      	<ul id="orders">
      	</ul>
@@ -231,20 +231,30 @@
 <script src="http://202.120.40.175:40012/RMP/function/ResourceCollection.js"></script>
 <script type="text/javascript">
 $(window).load(function(){
-	//need a way to 
-	var resourcecollection = ResourceCollection.createNew("Ua2b5599c83278/CPGM/order/");
-  resourcecollection.GET();         
-  var orders = resourcecollection.getResultSet();
-  $('#orders').append($('<li>').append($('<div>').addClass('ordercol1').text('订单号')).
-  		append($('<div>').addClass('ordercol2').text('下单时间'))
-			.append($('<div>').addClass('ordercol3').text('订单状态'))
-			.append($('<div>').addClass('ordercol4').text('取消订单')))
-  for (var i = 0; i < orders.length; i++) {
-  	$('#orders').append($('<li>').data('uri',orders[i].getAttribute('uri')).append($('<div>').addClass('ordercol1').text(orders[i].getAttribute('orderid'))).
-  		append($('<div>').addClass('ordercol2').text(orders[i].getAttribute('ordertime')))
-  			.append($('<div>').addClass('ordercol3').text(orders[i].getAttribute('status')))
-  			.append($('<div>').addClass('ordercol4').append($('<button>').addClass('cancel').text('取消订单'))))
-  }
+	if ($.cookie('user_uri') == undefined || $.cookie('user_role') == undefined)
+		return;
+	switch($.cookie('user_role')) {
+		case 'admin':
+			$('#content').empty();
+			break;
+		case "user":
+		//need a way to get user's orders
+			var resourcecollection = ResourceCollection.createNew("Ua2b5599c83278/CPGM/order/");
+		  resourcecollection.GET();         
+		  var orders = resourcecollection.getResultSet();
+		  $('#orders').append($('<li>').append($('<div>').addClass('ordercol1').text('订单号')).
+		  		append($('<div>').addClass('ordercol2').text('下单时间'))
+					.append($('<div>').addClass('ordercol3').text('订单状态'))
+					.append($('<div>').addClass('ordercol4').text('取消订单')))
+		  for (var i = 0; i < orders.length; i++) {
+		  	$('#orders').append($('<li>').data('uri',orders[i].getAttribute('uri')).append($('<div>').addClass('ordercol1').text(orders[i].getAttribute('orderid'))).
+		  		append($('<div>').addClass('ordercol2').text(orders[i].getAttribute('ordertime')))
+		  			.append($('<div>').addClass('ordercol3').text(orders[i].getAttribute('status')))
+		  			.append($('<div>').addClass('ordercol4').append($('<button>').addClass('cancel').text('取消订单'))))
+		  }
+			break;
+	}
+	
 })
 $('#orders').on('click','button',function(){
 	//cancel the order

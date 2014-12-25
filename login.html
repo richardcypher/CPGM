@@ -232,8 +232,10 @@
 <script src="http://202.120.40.175:40012/RMP/assets/js/jquery.cookie.js"></script>
 <script type="text/javascript">
 	$('#login-form').submit(function(e){
+		//user_role:admin,user
 		$.cookie('user_uri','123456')
 		$.cookie('user_role','admin')
+		alert('login clicked');
 		return true;
 	})
 </script>
