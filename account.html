@@ -234,6 +234,8 @@
 <script src="http://202.120.40.175:40012/RMP/function/Resource.js"></script>
 <script src="http://202.120.40.175:40012/RMP/function/ResourceCollection.js"></script>
 <script type="text/javascript">
+var user;
+var order;
 $(window).load(function(){
 	if ($.cookie('user_uri') == undefined || $.cookie('user_role') == undefined)
 		return;
@@ -247,17 +249,18 @@ $(window).load(function(){
 			break;
 		case "user":
 		//need a way to get user's orders
-			var resourcecollection = ResourceCollection.createNew("Ua2b5599c83278/CPGM/order/");
-		  resourcecollection.GET();         
-		  var orders = resourcecollection.getResultSet();
+		user = Resource.createNew("Ua2b5599c83278/CPGM/user/"+$.cookie('user_uri'));
+		  user.GET();       
+			orders=user.listSpecificSubresources("order");
 		  $('#orders').append($('<li>').append($('<div>').addClass('ordercol1').text('订单号')).
 		  		append($('<div>').addClass('ordercol2').text('下单时间'))
 					.append($('<div>').addClass('ordercol3').text('订单状态'))
 					.append($('<div>').addClass('ordercol4').text('取消订单')))
 		  for (var i = 0; i < orders.length; i++) {
-		  	$('#orders').append($('<li>').addClass('orderitem').data('uri',orders[i].getAttribute('uri')).append($('<div>').addClass('ordercol1').text(orders[i].getAttribute('orderid'))).
+		  	$('#orders').append($('<li>').addClass('orderitem').data('uri',orders[i].url)
+			.append($('<div>').addClass('ordercol1').text(orders[i].id)).
 		  		append($('<div>').addClass('ordercol2').text(orders[i].getAttribute('ordertime')))
-		  			.append($('<div>').addClass('ordercol3').text(orders[i].getAttribute('status')))
+		  			.append($('<div>').addClass('ordercol3').text(orders[i].getAttribute('stat')))
 		  			.append($('<div>').addClass('ordercol4').append($('<button>').addClass('cancel').text('取消订单'))))
 		  }
 			break;
@@ -265,7 +268,22 @@ $(window).load(function(){
 })
 $('#orders').on('click','.cancel',function(){
 	//cancel the order
-	var uri = $(this).closest('li').data('uri');//use this uri to fetch a specific order
+	var uri = $(this).closest('li').data('uri');
+	alert(uri);
+	order = Resource.createNew(uri);
+	order.GET();
+	if(order.getAttribute("stat")=="待发货"){
+		order.setAttribute("stat","取消");
+		alert("订单已取消");
+		order.PUT();
+		location=location;
+		return;
+	}
+	else{
+		alert("不能取消订单");
+		return;
+	}
+	//use this uri to fetch a specific order
 })
 $('#content').on('click','.func1',function(){//查看订单
 	$('#contentbody').empty();

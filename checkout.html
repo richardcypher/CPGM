@@ -221,6 +221,7 @@
 <script type="text/javascript">
 	var basket = [];
 	var order;
+	var user;
 	$(window).load(function(){	
 	  if ($.cookie("basket") != undefined)
 	    basket = JSON.parse($.cookie("basket"));
@@ -247,20 +248,37 @@
 	})
 	$('#pay').click(function(){
 //post order here
-		var orderid=new Date();
+		var content="";
+		var number="";
 		for (var i = 0; i < basket.length; i++) {
 			var resourcecollection = ResourceCollection.createNew("Ua2b5599c83278/CPGM/good/");
 			resourcecollection.addEqual("goodname",basket[i].name);
 			resourcecollection.GET();
 			var good = resourcecollection.getResultSet();
-			order = Resource.createNew("Ua2b5599c83278/CPGM/order/");
-			order.addAttribute(Attribute.createNew("orderid",0));
-			order.addAttribute(Attribute.createNew("number",0));
-			order.setAttribute("stat",'待发货');
-			order.POST();
-			good[0].addSubresource(order);
-			good[0].PUT();
+			content+=good[0].id+".";
+			number+=basket[i].num+".";
+			//alert(number);
 		}
+		//alert(number);
+		order = Resource.createNew("Ua2b5599c83278/CPGM/order/");
+		order.addAttribute(Attribute.createNew("cont",content));
+		order.addAttribute(Attribute.createNew("num",number));
+		order.addAttribute(Attribute.createNew("stat",'待发货'));
+		order.POST();
+		if(order.msg!="<succeed></succeed>"){
+			alert("订单创建失败");return;
+		}
+		user = Resource.createNew("Ua2b5599c83278/CPGM/user/"+$.cookie("user_uri"));
+		user.GET();
+		user.addSubresource(order);
+		user.PUT();
+		if(user.msg!="<succeed></succeed>"){
+			alert("下单失败");return;
+		}
+		else{
+			alert("下单成功");
+		}
+		//alert(user);
 		$.removeCookie('basket');
 	})
 </script>
