@@ -255,6 +255,23 @@ var user;
 			}
 			
 		}
+		else if(selected=="供货商")
+		{
+			var resourcecollection = ResourceCollection.createNew("Ua2b5599c83278/CPGM/user/");
+			resourcecollection.addEqual("username",$('#modlgn_username').val());
+			resourcecollection.addEqual("password",$('#modlgn_passwd').val());
+			resourcecollection.addEqual("role","admin");
+			resourcecollection.GET(); 
+			user = resourcecollection.getResultSet();
+			if(user.length!=0)
+			{
+				$.cookie('user_uri',user[0].id);
+				$.cookie('user_role','admin');
+				//alert('login clicked');
+				return true;
+			}
+			
+		}
 		alert("用户名或密码错误");
 		e.preventDefault();
 		return false;

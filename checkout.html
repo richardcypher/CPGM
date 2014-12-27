@@ -260,10 +260,13 @@
 			//alert(number);
 		}
 		//alert(number);
+		var d=new Date();
 		order = Resource.createNew("Ua2b5599c83278/CPGM/order/");
 		order.addAttribute(Attribute.createNew("cont",content));
 		order.addAttribute(Attribute.createNew("num",number));
 		order.addAttribute(Attribute.createNew("stat",'待发货'));
+		order.addAttribute(Attribute.createNew("odtime",d.toDateString()));
+		//alert(d.toDateString());
 		order.POST();
 		if(order.msg!="<succeed></succeed>"){
 			alert("订单创建失败");return;

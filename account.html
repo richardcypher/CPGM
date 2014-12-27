@@ -259,7 +259,7 @@ $(window).load(function(){
 		  for (var i = 0; i < orders.length; i++) {
 		  	$('#orders').append($('<li>').addClass('orderitem').data('uri',orders[i].url)
 			.append($('<div>').addClass('ordercol1').text(orders[i].id)).
-		  		append($('<div>').addClass('ordercol2').text(orders[i].getAttribute('ordertime')))
+		  		append($('<div>').addClass('ordercol2').text(orders[i].getAttribute('odtime')))
 		  			.append($('<div>').addClass('ordercol3').text(orders[i].getAttribute('stat')))
 		  			.append($('<div>').addClass('ordercol4').append($('<button>').addClass('cancel').text('取消订单'))))
 		  }
@@ -269,13 +269,13 @@ $(window).load(function(){
 $('#orders').on('click','.cancel',function(){
 	//cancel the order
 	var uri = $(this).closest('li').data('uri');
-	alert(uri);
+	//alert(uri);
 	order = Resource.createNew(uri);
 	order.GET();
 	if(order.getAttribute("stat")=="待发货"){
 		order.setAttribute("stat","取消");
-		alert("订单已取消");
 		order.PUT();
+		alert("订单已取消");
 		location=location;
 		return;
 	}
@@ -296,9 +296,10 @@ $('#content').on('click','.func1',function(){//查看订单
 			.append($('<div>').addClass('ordercol3').text('订单状态'))
 			.append($('<div>').addClass('ordercol4').text('发货')))
   for (var i = 0; i < orders.length; i++) {
-  	$('#contentbody>ul').append($('<li>').addClass('orderitem').data('uri',orders[i].getAttribute('uri')).append($('<div>').addClass('ordercol1').text(orders[i].getAttribute('orderid'))).
-  		append($('<div>').addClass('ordercol2').text(orders[i].getAttribute('ordertime')))
-  			.append($('<div>').addClass('ordercol3').text(orders[i].getAttribute('status')))
+  	$('#contentbody>ul').append($('<li>').addClass('orderitem').data('uri',orders[i].url).append($('<div>').addClass('ordercol1')
+	.text(orders[i].id)).
+  		append($('<div>').addClass('ordercol2').text(orders[i].getAttribute('odtime')))
+  			.append($('<div>').addClass('ordercol3').text(orders[i].getAttribute('stat')))
   			.append($('<div>').addClass('ordercol4').append($('<button>').addClass('deliver').text('发货'))))
   }
 })
@@ -310,12 +311,16 @@ $('#content').on('click','.func2',function(){//查看商品
   $('#contentbody').append($('<ul>'));
   $('#contentbody>ul').append($('<li>').append($('<div>').addClass('ordercol1').text('商品名')).
   		append($('<div>').addClass('ordercol2').text('类别'))
-			.append($('<div>').addClass('ordercol3').text('库存'))
+			.append($('<div>').addClass('ordercol3').text('库存(安全库存)'))
 			.append($('<div>').addClass('ordercol4').text('补货')))
   for (var i = 0; i < goods.length; i++) {
+    var invCollection = ResourceCollection.createNew("Ua2b5599c83278/CPGM/safeInventory/");
+	invCollection.addEqual("goodid",goods[i].id);
+	invCollection.GET();        
+	var inv = invCollection.getResultSet()[0];	
   	$('#contentbody>ul').append($('<li>').addClass('orderitem').data('uri',goods[i].getAttribute('uri')).append($('<div>').addClass('ordercol1').text(goods[i].getAttribute('goodname'))).
   		append($('<div>').addClass('ordercol2').text(goods[i].getAttribute('category')))
-  			.append($('<div>').addClass('ordercol3').text(goods[i].getAttribute('inventory')))
+  			.append($('<div>').addClass('ordercol3').text(goods[i].getAttribute('inventory')+"("+inv.getAttribute("safeinventory")+")"))
   			.append($('<div>').addClass('ordercol4').append($('<button>').addClass('supply').text('补货'))))
   }
 })
@@ -331,14 +336,14 @@ $('#content').on('click','.func3',function(){//订单统计
   var ctx = $('#piechart').get(0).getContext('2d');
   var ctx1 = $('#linechart').get(0).getContext('2d');	
   var data1 = {
-			labels : ["January","February","March","April","May","June","July"],
+			labels : ["Apr","May","Jun","Jul","Oct","Nov","Dec"],
 			datasets : [
 			{
 				fillColor : "rgba(220,220,220,0.5)",
 				strokeColor : "rgba(220,220,220,1)",
 				pointColor : "rgba(220,220,220,1)",
 				pointStrokeColor : "#fff",
-				data : [0.65,0.59,0.90,0.81,0.56,0.55,0.40],
+				data : [65,59,90,81,56,55,40],
 				title : "pFirst data"
 			}
 			]
@@ -377,12 +382,12 @@ $('#content').on('click','.func3',function(){//订单统计
 		canvasBorders : false,
 		canvasBordersWidth : 3,
 		canvasBordersColor : "black",
-		graphTitle : "Graph Title",
+		graphTitle : "各类商品订单量分析",
 		graphTitleFontFamily : "'Arial'",
 		graphTitleFontSize : 24,
 		graphTitleFontStyle : "bold",
 		graphTitleFontColor : "#666",
-		graphSubTitle : "Graph Sub Title",
+		//graphSubTitle : "Graph Sub Title",
 		graphSubTitleFontFamily : "'Arial'",
 		graphSubTitleFontSize : 18,
 		graphSubTitleFontStyle : "normal",
@@ -438,15 +443,96 @@ $('#content').on('click','.func3',function(){//订单统计
 		startAngle : 0,
 		dynamicDisplay : true
 	}  
+	var myoptions2 = { 
+		inGraphDataShow : true,
+		datasetFill : true,
+		scaleLabel: "<%=value%>",
+		scaleTickSizeRight : 5,
+		scaleTickSizeLeft : 5,
+		scaleTickSizeBottom : 5,
+		scaleTickSizeTop : 5,
+		scaleFontSize : 16,
+		canvasBorders : false,
+		canvasBordersWidth : 3,
+		canvasBordersColor : "black",
+		graphTitle : "订单量趋势分析",
+		graphTitleFontFamily : "'Arial'",
+		graphTitleFontSize : 24,
+		graphTitleFontStyle : "bold",
+		graphTitleFontColor : "#666",
+		//graphSubTitle : "Graph Sub Title",
+		graphSubTitleFontFamily : "'Arial'",
+		graphSubTitleFontSize : 18,
+		graphSubTitleFontStyle : "normal",
+		graphSubTitleFontColor : "#666",
+		footNoteFontFamily : "'Arial'",
+		footNoteFontSize : 8,
+		footNoteFontStyle : "bold",
+		footNoteFontColor : "#666",
+		legend : true,
+		legendFontFamily : "'Arial'",
+		legendFontSize : 12,
+		legendFontStyle : "normal",
+		legendFontColor : "#666",
+		legendBlockSize : 15,
+		legendBorders : true,
+		legendBordersWidth : 1,
+		legendBordersColors : "#666",
+		yAxisLeft : true,
+		yAxisRight : false,
+		xAxisBottom : true,
+		xAxisTop : false,
+		yAxisLabel : "订单量",
+		yAxisFontFamily : "'Arial'",
+		yAxisFontSize : 16,
+		yAxisFontStyle : "normal",
+		yAxisFontColor : "#666",
+		xAxisLabel : "月份",
+		xAxisFontFamily : "'Arial'",
+		xAxisFontSize : 16,
+		xAxisFontStyle : "normal",
+		xAxisFontColor : "#666",
+		//yAxisUnit : "Y Unit",
+		yAxisUnitFontFamily : "'Arial'",
+		yAxisUnitFontSize : 8,
+		yAxisUnitFontStyle : "normal",
+		yAxisUnitFontColor : "#666",
+		annotateDisplay : true,
+		spaceTop : 0,
+		spaceBottom : 0,
+		spaceLeft : 0,
+		spaceRight : 0,
+		logarithmic: false,
+		// showYAxisMin : false,
+		rotateLabels : "smart",
+		xAxisSpaceOver : 0,
+		xAxisSpaceUnder : 0,
+		xAxisLabelSpaceAfter : 0,
+		xAxisLabelSpaceBefore : 0,
+		legendBordersSpaceBefore : 0,
+		legendBordersSpaceAfter : 0,
+		footNoteSpaceBefore : 0,
+		footNoteSpaceAfter : 0,
+		startAngle : 0,
+		dynamicDisplay : true
+	}
   new Chart(ctx).Pie(data,myoptions);
-  new Chart(ctx1).Line(data1,myoptions);
+  new Chart(ctx1).Line(data1,myoptions2);
 
 })
 $('#content').on('click','.deliver',function(){//deliver the good
-
+	var uri = $(this).closest('li').data('uri');
+	//alert(uri);
+	order = Resource.createNew(uri);
+	order.GET();
+	order.setAttribute("stat","已发货");
+	order.PUT();
+	alert("已发货");
+	location=location;
+	return;
 })
 $('#content').on('click','.supply',function(){//supply the good
-
+	
 })
 </script>
 </body>
