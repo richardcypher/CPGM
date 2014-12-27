@@ -236,6 +236,8 @@
 <script type="text/javascript">
 var user;
 var order;
+var content;
+var num;
 $(window).load(function(){
 	if ($.cookie('user_uri') == undefined || $.cookie('user_role') == undefined)
 		return;
@@ -318,7 +320,7 @@ $('#content').on('click','.func2',function(){//查看商品
 	invCollection.addEqual("goodid",goods[i].id);
 	invCollection.GET();        
 	var inv = invCollection.getResultSet()[0];	
-  	$('#contentbody>ul').append($('<li>').addClass('orderitem').data('uri',goods[i].getAttribute('uri')).append($('<div>').addClass('ordercol1').text(goods[i].getAttribute('goodname'))).
+  	$('#contentbody>ul').append($('<li>').addClass('orderitem').data('uri',goods[i].url).append($('<div>').addClass('ordercol1').text(goods[i].getAttribute('goodname'))).
   		append($('<div>').addClass('ordercol2').text(goods[i].getAttribute('category')))
   			.append($('<div>').addClass('ordercol3').text(goods[i].getAttribute('inventory')+"("+inv.getAttribute("safeinventory")+")"))
   			.append($('<div>').addClass('ordercol4').append($('<button>').addClass('supply').text('补货'))))
@@ -525,14 +527,54 @@ $('#content').on('click','.deliver',function(){//deliver the good
 	//alert(uri);
 	order = Resource.createNew(uri);
 	order.GET();
+	if(order.getAttribute('stat')!="待发货"){
+		alert("不可发货状态");return;
+	}
+	content=order.getAttribute("cont").toString().split('.');
+	num=order.getAttribute("num").toString().split('.');
+	for(var i=0; i<content.length-1;i++)//last one is ""
+	{
+		var resource=Resource.createNew("Ua2b5599c83278/CPGM/good/"+content[i]);
+		resource.GET();
+		var inv=resource.getAttribute("inventory");
+		if(parseInt(inv)<parseInt(num[i])){
+			alert(content[i].getAttribute("goodname")+"库存不足");return;
+		}
+	}
+	for(var i=0; i<content.length-1;i++)//last one is ""
+	{
+		var resource=Resource.createNew("Ua2b5599c83278/CPGM/good/3718604562686700");
+		resource.GET();
+		var inv=resource.getAttribute("inventory");
+		var x=(parseInt(inv)-parseInt(num[i]))+"";
+		//alert(x);
+		resource.setAttribute("inventory",x+"");
+		//alert(resource.getAttribute("inventory"));
+		resource.PUT();
+	}
 	order.setAttribute("stat","已发货");
 	order.PUT();
 	alert("已发货");
-	location=location;
-	return;
+	//location=location;
+	//return;
 })
 $('#content').on('click','.supply',function(){//supply the good
-	
+	var str=prompt("请输入补货数量","0");
+    if(str)
+    {
+        var uri = $(this).closest('li').data('uri');
+		//alert(uri);
+		order = Resource.createNew(uri);
+		order.GET();
+		var i=order.getAttribute("inventory");
+		var x=parseInt(i)+parseInt(str);
+		order.setAttribute("inventory",x);
+		order.PUT();
+		$("functype func2").click();
+		alert("补货成功");
+		location=location;
+		return;
+    }
 })
 </script>
 </body>
