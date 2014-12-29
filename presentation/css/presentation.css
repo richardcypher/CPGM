@@ -303,7 +303,10 @@ a:focus {
     position: relative;
     top: 25%;
 }
-
+.vcenter1 {
+    position: relative;
+    top: -20px;
+}
 #stacks-diagram-ctr {
     display: block;
     width: 900px;
